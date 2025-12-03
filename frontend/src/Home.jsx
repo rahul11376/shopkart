@@ -1,0 +1,41 @@
+import React, { useEffect, useState } from 'react'
+import Brand from './components/Brand.jsx';
+import VIPLaunch from './components/VIPLaunch.jsx';
+import Collection from './components/Collection.jsx';
+import Trust from './components/Trust.jsx';
+import Exclusive from './components/Exclusive.jsx';
+
+const Home = ( {setdata,setlist,cartRef}) => {
+const [cart, setCart] = useState([]);
+const [wish,setwish] =useState([]);
+useEffect(() => {
+  setdata(cart);
+  setlist(wish);
+  console.log("home to app :", cart);
+   console.log("home to app :", wish);
+}, [cart, setCart, wish, setwish]);
+
+  return (
+    <div>
+
+             <div id="collection">
+  <Collection setCart={setCart} setwish={setwish} cartRef={cartRef} />
+</div>
+
+<div id="exclusive">
+  <Exclusive />
+</div>
+
+<div id="brand">
+  <Brand />
+</div>
+
+<div id="vip-launch">
+  <VIPLaunch />
+</div>
+              
+    </div>
+  )
+}
+
+export default Home

@@ -1,0 +1,111 @@
+/* === Root Variables & Global Styles === */
+:root {
+  --font-primary: 'Playfair Display', serif;
+
+  --color-bg: #FAFAFA;
+  --color-black: #000000;
+  --color-charcoal: #1C1C1C;
+  --color-gold: #C5A457;
+  --color-ivory: #F7F5F0;
+  --color-gray: #4B4B4B;
+}
+
+/* Box sizing reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Base html */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  min-height: 100%;
+}
+
+/* Base body */
+body {
+  font-family: var(--font-primary), serif;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.03em;
+  background-color: var(--color-bg);
+  color: var(--color-charcoal);
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Container to center content with padding to avoid navbar overlap */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 10px 10px; /* 80px top padding for fixed navbar */
+}
+
+/* Responsive padding on very small screens */
+@media (max-width: 480px) {
+  .container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  font-weight: 700;
+  color: var(--color-charcoal);
+}
+
+/* Paragraphs */
+p {
+  margin-bottom: 1em;
+}
+
+/* Links */
+a {
+  color: var(--color-charcoal);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover,
+a:focus {
+  color: var(--color-gold);
+  outline: none;
+}
+
+/* Buttons base style */
+button {
+  font-family: var(--font-primary), serif;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--color-charcoal);
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+button:hover,
+button:focus {
+  color: var(--color-gold);
+  outline: none;
+}
+
+/* Utility classes (optional) */
+.text-center {
+  text-align: center;
+}
+
+.hidden {
+  display: none !important;
+}
