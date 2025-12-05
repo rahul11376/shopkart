@@ -23,7 +23,7 @@ function App() {
   const[view, setview]= useState([]);
   const[item, setitem]= useState([]);
 
- const cartRef = useRef(null);
+
 
 
   useEffect(() => {
@@ -32,7 +32,7 @@ function App() {
 
   return (
   <Router>
-         <Navbar cartRef={cartRef}  />
+         <Navbar data={data} item={item} view={view} />
       <Routes>
 
              {/* Home page */}
@@ -55,7 +55,7 @@ function App() {
           <>
            <Featureimage />
            <div className="container">
-          <Home setdata ={setdata} setlist ={setlist} cartRef={cartRef}    />
+          <Home setdata ={setdata} setlist ={setlist}     />
            </div>
             <Trust />
             <Footer />

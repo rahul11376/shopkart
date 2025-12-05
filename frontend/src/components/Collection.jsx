@@ -94,21 +94,6 @@ const Collection = ({setCart,setwish, cartRef}) => {
   const [wishlist, setWishlist] = useState(products.map(() => false));
 ////////////////////////////////////
 
-const [isAnimating, setIsAnimating] = useState(false); 
-const productRefs = useRef([]); 
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   const nextImage = (index) => {
@@ -146,30 +131,13 @@ setwish(prevwish => [...prevwish, product]);
 
 const handleaddtocart = (id) => {
 
-   const productElement = productRefs.current[id]; 
-   const cartElement = cartRef.current;
-
-    if (productElement && cartElement)
-       { const productRect = productElement.getBoundingClientRect();
-         const cartRect = cartElement.getBoundingClientRect(); 
-
-        const distanceX = cartRect.left - productRect.left; 
-        const distanceY = cartRect.top - productRect.top; 
-
-         setIsAnimating(true); 
-
-          productElement.style.transition = 'transform 0.5s ease-in-out';
-           productElement.style.transform = `translate(${distanceX}px, ${distanceY}px) scale(0.6)`; // Fly to cart // Reset the animation after 500ms (same as duration) 
+  
           
            setTimeout(() => {
-             productElement.style.transition = ''; 
-             productElement.style.transform = ''; 
-              setIsAnimating(false); 
-           
            
               const product = products.find((p) => p.id === id);
               setCart((prevCart) => [...prevCart, product]); }, 500);
-             }
+             
        };
       
 
@@ -188,7 +156,7 @@ useEffect(() => {
         {products.map((product, i) => (
           <article key={product.id} className="product-card"
           
-          ref={(el) => (productRefs.current[product.id] = el)} 
+         
           >
            
             <div className="productimg">

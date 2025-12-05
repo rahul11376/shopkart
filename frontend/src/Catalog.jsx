@@ -120,7 +120,7 @@ const banners = [
 
      const handleaddtocart = ( id ) => {
     const product= products.find((p)=>p.id === id);
-    alert(`Added ${product.title}`);
+    // alert(`Added ${product.title}`);
 
     setdata(prevCart => [...prevCart, product]);
   //  setlocalcart( prevCart => [...prevCart, product]); //newCart = prevCart + product;

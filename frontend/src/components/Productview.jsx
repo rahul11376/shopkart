@@ -273,9 +273,11 @@ const ProductView = ({setview}) => {
           <Button onClick={handlereview}>Write a Review</Button>
 
           {isContainerform &&( <Containerform >
-            <Title>Customer Review</Title>
+    
+          <Title>Customer Review</Title>
             {/* Star Rating */}
             <Stars>
+            
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
                   key={star}
@@ -578,7 +580,11 @@ const Wrapper = styled.div`
 
 const Review = styled.div`
 margin-top: 40px;
-`;
+
+
+
+
+`; 
 
 
 const Containerform = styled.div`
@@ -588,7 +594,20 @@ const Containerform = styled.div`
   /* background: #fff; */
 
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  /* .classform{
+ display:flex;
+ align-items:center;
+
+} */
+
+
+
 `;
+
+
+  
+
+
 
 const Title = styled.h2`
   font-size: 1.5rem;
@@ -654,5 +673,8 @@ const Button = styled.button`
   &:hover {
      background:var(  --color-charcoal);
   }
+
+
+
 `;
 

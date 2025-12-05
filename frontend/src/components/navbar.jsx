@@ -1,12 +1,29 @@
-import React from 'react'
-import { useRef } from 'react'
+import React, { useState } from 'react'
+import {useEffect } from 'react'
 import styled from 'styled-components'
 import { FaCartArrowDown } from 'react-icons/fa'
 import { SiWish } from 'react-icons/si'
 import { Link } from 'react-router-dom'
 
-const Navbar = ({cartRef}) => {
-  
+
+
+const Navbar = ({data, view, item}) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const newCartItems = [
+      ...(Array.isArray(data) ? data : []),
+      ...(Array.isArray(view) ? view : []),
+      ...(Array.isArray(item) ? item : []),
+    ];
+
+    setCount(newCartItems.length);
+
+  }, [data, view, item]);
+
+  console.log("navbar_count", count);
+
+
   return (
     <Nav>
       <div className="container">
@@ -19,7 +36,9 @@ const Navbar = ({cartRef}) => {
         <div className="cart">
           <Link to="/wishlist"><SiWish /></Link>
 
-           <Link ref={cartRef}   to="/cart"><FaCartArrowDown /></Link> 
+           <Link to="/cart" className='cart_icon'>
+           <FaCartArrowDown />  {count > 0 && <span className="badge">{count}</span>}
+           </Link> 
         </div>
       </div>
     </Nav>
@@ -102,6 +121,11 @@ const Nav = styled.nav`
   display: inline-block; /* or 'block' depending on layout */
   position: relative; /* Ensure it's positioned for transformations */
   cursor: pointer;
+}
+.badge {
+  position: absolute;
+  top:-8px;
+ color:gold;
 }
 
 

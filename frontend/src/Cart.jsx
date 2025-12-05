@@ -63,10 +63,11 @@ useEffect(() => {
 
  // current progress step
    
-  const subtotal = cartItems?.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+const subtotal = cartItems?.reduce((sum, item) => {
+  const price = Number(item.price) || 0;
+  const quantity = Number(item.quantity) || 0;
+  return sum + price * quantity;
+}, 0);
   const discount = cartItems?.reduce((sum, item) => sum + item.discountPercent, 0);
   const total = subtotal - discount;
 
@@ -104,6 +105,16 @@ const handlercontinue=(e)=>{
   setstep(prev=>prev+1)
   
 }
+ 
+const handlecancel=(e)=>{
+  e.preventDefault();
+  setstep(prev=>prev-1)
+}
+
+
+
+
+
 
   return (
     <Wrapper>
@@ -346,7 +357,7 @@ const handlercontinue=(e)=>{
   </div>
 
   <div className="form-actions">
-    <button type="button" className="cancel">
+    <button type="button" className="cancel"  onClick={handlecancel}>
       CANCEL
     </button>
     <button type="submit" className="continue">
