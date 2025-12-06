@@ -1,10 +1,10 @@
-import React, { useState,useRef } from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { FiShoppingBag } from 'react-icons/fi';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-
+import  axios from 'axios';
 // Sample product data array (different products with unique IDs)
 const products = [
   {
@@ -82,7 +82,7 @@ const products = [
   }
 ];
 
-const Collection = ({setCart,setwish, cartRef}) => {
+const Collection = ({setCart,setwish, }) => {
    
   
   // console.log("cart in collection:", cart);
@@ -93,6 +93,10 @@ const Collection = ({setCart,setwish, cartRef}) => {
   
   const [wishlist, setWishlist] = useState(products.map(() => false));
 ////////////////////////////////////
+
+
+
+
 
 
 

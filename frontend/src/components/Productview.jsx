@@ -2,103 +2,138 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FiShoppingBag } from 'react-icons/fi';
 import styled from 'styled-components';
-
+import axios from 'axios';
 // Mock data for product (replace this with actual data)
-const products = [
-  {
-    id: '1',
-    title: 'Titan Quartz Analog with Day and Date Black Dial Stainless Steel Strap Watch for Men',
-    brand: 'Titan',
-    images: ['/1802SL06_2.webp', '/1802SL06_3.webp', '/1802SL06_4.webp'],
-    price: 2335,
-    originalPrice: 2595,
-    discountPercent: 10,
-    description: 'Elegant and modern watch with a classic black dial and a stainless steel strap.',
-    rating: 4,
-    reviews: 0,
-    stock: 10,
-    deliveryDate: 'By 26 Sep, Friday',
-    features: ['Water resistant', 'Stainless steel strap', 'Day and Date display'],
-  },
- {
-    id: '2',
-    title: 'Chronograph Classic Leather Strap Watch',
-    brand: 'Fossil',
-    images: [
-       "/Screenshot 2025-10-09 221019.png",
-      "/Screenshot 2025-10-09 221030.png",
-      "/Screenshot 2025-10-09 221041.png",
-      "/Screenshot 2025-10-09 221119.png",
-       "/Screenshot 2025-10-09 221140.png"
-    ],
-    price: 2250,
-    originalPrice: 2999,
-    discountPercent: 25,
-    description: 'Sporty chronograph with a genuine leather strap and durable casing.',
-    rating: 5,
-    reviews: 78,
-    stock: 5,
-    deliveryDate: 'By 26 Sep, Friday',
-    features: ['Chronograph functionality', 'Leather strap', 'Scratch-resistant glass'],
-  },
-  {
-    id: '3',
-    title: 'Fastrack Analog Casual Watch for Men',
-    brand: 'Fastrack',
-    images: [
-       "/Screenshot 2025-10-09 221019.png",
-      "/Screenshot 2025-10-09 221030.png",
-      "/Screenshot 2025-10-09 221041.png",
-      "/Screenshot 2025-10-09 221119.png",
-       "/Screenshot 2025-10-09 221140.png"
-    ],
-    price: 900,
-    originalPrice: 1200,
-    discountPercent: 25,
-    description: 'Modern design perfect for casual and daily wear.',
-    rating: 3,
-    reviews: 20,
-    stock: 12,
-    deliveryDate: 'By 26 Sep, Friday',
-    features: ['Trendy design', 'Water resistant', 'Comfort fit'],
-  },
-  {
-    id: '4',
-    title: 'Sonata Gold Edition Analog Watch for Men',
-    brand: 'Sonata',
-    images: [
-       "/Screenshot 2025-10-09 221019.png",
-      "/Screenshot 2025-10-09 221030.png",
-      "/Screenshot 2025-10-09 221041.png",
-      "/Screenshot 2025-10-09 221119.png",
-       "/Screenshot 2025-10-09 221140.png"
-    ],
-    price: 1750,
-    originalPrice: 2499,
-    discountPercent: 30,
-    description: 'Luxury gold-finish watch with premium feel and build.',
-    rating: 4,
-    reviews: 65,
-    stock: 8,
-    deliveryDate: 'By 26 Sep, Friday',
-    features: ['Gold finish', 'Metal strap', 'Water resistant'],
-  }
+// const products = [
+//   {
+//     id: '1',
+//     title: 'Titan Quartz Analog with Day and Date Black Dial Stainless Steel Strap Watch for Men',
+//     brand: 'Titan',
+//     images: ['/1802SL06_2.webp', '/1802SL06_3.webp', '/1802SL06_4.webp'],
+//     price: 2335,
+//     originalPrice: 2595,
+//     discountPercent: 10,
+//     description: 'Elegant and modern watch with a classic black dial and a stainless steel strap.',
+//     rating: 4,
+//     reviews: 0,
+//     stock: 10,
+//     deliveryDate: 'By 26 Sep, Friday',
+//     features: ['Water resistant', 'Stainless steel strap', 'Day and Date display'],
+//   },
+//  {
+//     id: '2',
+//     title: 'Chronograph Classic Leather Strap Watch',
+//     brand: 'Fossil',
+//     images: [
+//        "/Screenshot 2025-10-09 221019.png",
+//       "/Screenshot 2025-10-09 221030.png",
+//       "/Screenshot 2025-10-09 221041.png",
+//       "/Screenshot 2025-10-09 221119.png",
+//        "/Screenshot 2025-10-09 221140.png"
+//     ],
+//     price: 2250,
+//     originalPrice: 2999,
+//     discountPercent: 25,
+//     description: 'Sporty chronograph with a genuine leather strap and durable casing.',
+//     rating: 5,
+//     reviews: 78,
+//     stock: 5,
+//     deliveryDate: 'By 26 Sep, Friday',
+//     features: ['Chronograph functionality', 'Leather strap', 'Scratch-resistant glass'],
+//   },
+//   {
+//     id: '3',
+//     title: 'Fastrack Analog Casual Watch for Men',
+//     brand: 'Fastrack',
+//     images: [
+//        "/Screenshot 2025-10-09 221019.png",
+//       "/Screenshot 2025-10-09 221030.png",
+//       "/Screenshot 2025-10-09 221041.png",
+//       "/Screenshot 2025-10-09 221119.png",
+//        "/Screenshot 2025-10-09 221140.png"
+//     ],
+//     price: 900,
+//     originalPrice: 1200,
+//     discountPercent: 25,
+//     description: 'Modern design perfect for casual and daily wear.',
+//     rating: 3,
+//     reviews: 20,
+//     stock: 12,
+//     deliveryDate: 'By 26 Sep, Friday',
+//     features: ['Trendy design', 'Water resistant', 'Comfort fit'],
+//   },
+//   {
+//     id: '4',
+//     title: 'Sonata Gold Edition Analog Watch for Men',
+//     brand: 'Sonata',
+//     images: [
+//        "/Screenshot 2025-10-09 221019.png",
+//       "/Screenshot 2025-10-09 221030.png",
+//       "/Screenshot 2025-10-09 221041.png",
+//       "/Screenshot 2025-10-09 221119.png",
+//        "/Screenshot 2025-10-09 221140.png"
+//     ],
+//     price: 1750,
+//     originalPrice: 2499,
+//     discountPercent: 30,
+//     description: 'Luxury gold-finish watch with premium feel and build.',
+//     rating: 4,
+//     reviews: 65,
+//     stock: 8,
+//     deliveryDate: 'By 26 Sep, Friday',
+//     features: ['Gold finish', 'Metal strap', 'Water resistant'],
+//   }
 
-];
+// ];
 
 const ProductView = ({setview}) => {
-
   const { id } = useParams();
-  const product = products.find((p) => p.id === id);
 
+
+useEffect(()=>{
+  const fetchProducts = async () => {
+
+      console.log("Product ID from URL:", id);  // Debugging to ensure we get the ID
+
+      if (!id) {
+        console.log("No valid product ID in URL");
+        return;  // Don't proceed if there's no valid ID
+      }
+
+
+
+      try{
+const res =  await axios.get(`http://localhost:5000/api/products/${id}`);
+Console.log("product fetched",res)
+Setproducts(res.data);
+  }
+catch(err)
+{
+  console.log(err);
+}
+  }
+  fetchProducts();
+
+},[id]);
+
+
+    // Check if this prints the correct ID
+  
   const [isInCart, setIsInCart] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(product.images[0]);
+ 
   const [isContainerform, setContainerform] = useState(false);
   const [isopen, setopen] = useState(false);
+  const [product, Setproducts]= useState(null);
+  
+  const [selectedImage, setSelectedImage] = useState(
+    ''
+    // product.images[0]
+  );
+
+  //console.log("PRODUCT ",product)
 
 
-   
       if (!product) {
     return (
       <Wrapper>
@@ -117,7 +152,7 @@ const ProductView = ({setview}) => {
       setIsInCart(true);
     }, 1000);
     
-    const product = products.find((p) => p.id == id);
+    //const product = products.find((p) => p.id == id);
     console.log("product view to app:", product);
     setview(prevview => [...prevview, product]);
   
@@ -128,7 +163,7 @@ const ProductView = ({setview}) => {
   };
   
  const handlerinfo = (id) =>{
-  console.log(id);
+  //console.log(id);
      setopen(prev =>(prev ===id ?false:id));
   
  }

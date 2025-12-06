@@ -3,79 +3,80 @@ import styled from 'styled-components';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { FiShoppingBag } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import  axios from 'axios';
 // Dummy product template
-const products1 = [
- {
-   id: '1',
-  title: "Signature Timepiece",
-  description: "Elegant watch with stainless steel finish",
-  rating: 3,
-  reviews: 45,
-  price: 1250,
-  originalPrice: 1995,
-  discountPercent: 37,
-  images: [
-    "1802SL06_2.webp",
-    "1802SL06_3.webp",
-    "1802SL06_4.webp",
-    "1802SL06_5.webp",
-    "1802SL06_6.webp",
-  ]
-},
- {
-    id: '2',
-    title: "Chronograph Classic",
-    description: "Sporty chronograph with leather strap",
-    rating: 5,
-    reviews: 78,
-    price: 6950,
-    originalPrice: 6999,
-    discountPercent: 25,
-    images: [
-      "public/Screenshot 2025-10-09 221019.png",
-      "public/Screenshot 2025-10-09 221030.png",
-      "public/Screenshot 2025-10-09 221041.png",
-      "public/Screenshot 2025-10-09 221119.png",
-       "public/Screenshot 2025-10-09 221140.png"
+// const products1 = [
+//  {
+//    id: '1',
+//   title: "Signature Timepiece",
+//   description: "Elegant watch with stainless steel finish",
+//   rating: 3,
+//   reviews: 45,
+//   price: 1250,
+//   originalPrice: 1995,
+//   discountPercent: 37,
+//   images: [
+//     "1802SL06_2.webp",
+//     "1802SL06_3.webp",
+//     "1802SL06_4.webp",
+//     "1802SL06_5.webp",
+//     "1802SL06_6.webp",
+//   ]
+// },
+//  {
+//     id: '2',
+//     title: "Chronograph Classic",
+//     description: "Sporty chronograph with leather strap",
+//     rating: 5,
+//     reviews: 78,
+//     price: 6950,
+//     originalPrice: 6999,
+//     discountPercent: 25,
+//     images: [
+//       "public/Screenshot 2025-10-09 221019.png",
+//       "public/Screenshot 2025-10-09 221030.png",
+//       "public/Screenshot 2025-10-09 221041.png",
+//       "public/Screenshot 2025-10-09 221119.png",
+//        "public/Screenshot 2025-10-09 221140.png"
 
-    ]
-  },
-  {
-    id: '3',
-    title: "Elegant Fastrack",
-    description: "Modern design perfect for casual wear",
-    rating: 3,
-    reviews: 20,
-    price: 900,
-    originalPrice: 1200,
-    discountPercent: 25,
-    images: [
-          "public/Screenshot 2025-10-09 221019.png",
-      "public/Screenshot 2025-10-09 221030.png",
-      "public/Screenshot 2025-10-09 221041.png",
-      "public/Screenshot 2025-10-09 221119.png",
-       "public/Screenshot 2025-10-09 221140.png"
-    ]
-  },
-  {
-    id: '4',
-    title: "Sonata Gold Edition",
-    description: "Luxury gold-finish watch",
-    rating: 4,
-    reviews: 65,
-    price: 11750,
-    originalPrice: 2499,
-    discountPercent: 30,
-    images: [
-           "public/Screenshot 2025-10-09 221019.png",
-      "public/Screenshot 2025-10-09 221030.png",
-      "public/Screenshot 2025-10-09 221041.png",
-      "public/Screenshot 2025-10-09 221119.png",
-       "public/Screenshot 2025-10-09 221140.png"
-    ]
-  }
+//     ]
+//   },
+//   {
+//     id: '3',
+//     title: "Elegant Fastrack",
+//     description: "Modern design perfect for casual wear",
+//     rating: 3,
+//     reviews: 20,
+//     price: 900,
+//     originalPrice: 1200,
+//     discountPercent: 25,
+//     images: [
+//           "public/Screenshot 2025-10-09 221019.png",
+//       "public/Screenshot 2025-10-09 221030.png",
+//       "public/Screenshot 2025-10-09 221041.png",
+//       "public/Screenshot 2025-10-09 221119.png",
+//        "public/Screenshot 2025-10-09 221140.png"
+//     ]
+//   },
+//   {
+//     id: '4',
+//     title: "Sonata Gold Edition",
+//     description: "Luxury gold-finish watch",
+//     rating: 4,
+//     reviews: 65,
+//     price: 11750,
+//     originalPrice: 2499,
+//     discountPercent: 30,
+//     images: [
+//            "public/Screenshot 2025-10-09 221019.png",
+//       "public/Screenshot 2025-10-09 221030.png",
+//       "public/Screenshot 2025-10-09 221041.png",
+//       "public/Screenshot 2025-10-09 221119.png",
+//        "public/Screenshot 2025-10-09 221140.png"
+//     ]
+//   }
 
-];
+// ];
 
 // const products = Array(12).fill(productTemplate);
 // const products = productTemplate.map((products, index )=>{
@@ -90,17 +91,52 @@ const banners = [
   
 
   const Catalog = ({setdata, setlist}) => {
-    const[products, setproducts]=useState(products1);
+    // const [currentImageIndex, setCurrentImageIndex] = useState(products.map(() => 0)); //[0, 0, 0, 0, 0] keep tracking which image is shown 0-1
+  const [currentImageIndex, setCurrentImageIndex] = useState([]); //[0, 0, 0, 0, 0] keep tracking which image is shown 0-1
+  // State to track wishlist toggle for each product
+  // const [wishlist, setWishlist] = useState(products.map(() => false));
+
+     // State to track wishlist toggle for each product
+  // const [wishlist, setWishlist] = useState(products.map(() => false));
+ const [wishlist, setWishlist] = useState([]);
+
+   const[products, setproducts]=useState([]);
   const [currentBanner, setCurrentBanner] = useState(0);
+
+useEffect(()=>{
+
+  const fetchProducts = async () => {
+    try {
+         const response = await axios.get ('http://localhost:5000/api/products');
+         console.log("products fetched:", response.data);
+                // Set initial image index for each product after products are fetched
+        setCurrentImageIndex(new Array(response.data.length).fill(0));
+
+          setproducts(response.data);
+    } catch (error) {
+       console.error("Error fetching products:", error);
+    }
+  }
+    fetchProducts();
+},[]);
+
+
+
+
+  
 
   const nextBanner = () => setCurrentBanner((prev) => (prev + 1) % banners.length);
   const prevBanner = () => setCurrentBanner((prev) => (prev - 1 + banners.length) % banners.length);
 
 
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(products.map(() => 0));
-  // State to track wishlist toggle for each product
-  const [wishlist, setWishlist] = useState(products.map(() => false));
+
+
+
+
+ 
+
+
 
   const nextImage = (index) => {
     setCurrentImageIndex(prev => {
@@ -150,7 +186,7 @@ const banners = [
 const handlefilter = (min, max, checked) => {
   
   if(!checked){
-    setproducts(products1);
+    setproducts(products);
   }
  else{
           if(min>=0 && max<=5000){
@@ -184,22 +220,22 @@ const handlefilter = (min, max, checked) => {
 
   const handlefilterrating= (rating,checked) => {
    if(!checked){
-      setproducts(products1);
+      setproducts(products);
    }
    else{
     if (rating>=4){ 
-      const filteredproducts =products1.filter(p=>p.rating >=rating);
+      const filteredproducts =products.filter(p=>p.rating >=rating);
       setproducts(filteredproducts);   
     }
     else{
-      setproducts(products1);
+      setproducts(products);
     }
     if (rating>=3){
-         const filteredproducts =products1.filter(p=>p.rating >=rating);
+         const filteredproducts =products.filter(p=>p.rating >=rating);
       setproducts(filteredproducts);
   }
      else{
-      setproducts(products1);
+      setproducts(products);
     }
    }
   };
@@ -212,11 +248,11 @@ const handlefilter = (min, max, checked) => {
   else{
 
   if(reviews <=50){
-    const filteredproducts =products1.filter(p=>p.reviews >=50);
+    const filteredproducts =products.filter(p=>p.reviews >=50);
     setproducts(filteredproducts);
  }
   else if(reviews >= 100){
-    const filteredproducts =products1.filter(p=>p.reviews >=100);
+    const filteredproducts =products.filter(p=>p.reviews >=100);
     if(filteredproducts.length == 0){
       console.error("no product above 100 reviews");
       return;
@@ -224,7 +260,7 @@ const handlefilter = (min, max, checked) => {
     setproducts(filteredproducts)
  }
  else{
-  setproducts(products1);
+  setproducts(products);
  }
   }
 
@@ -286,7 +322,10 @@ const handlefilter = (min, max, checked) => {
           <article key={product.id} className="product-card">
             <div className="productimg">
               <Link to={`/product/${product.id}`}>
-                <img src={product.images[currentImageIndex[i]]} alt={`${product.title} - image ${currentImageIndex[i] + 1}`} />
+               {console.log("Current Image Index:", currentImageIndex[i])}  {/* Log the current image index */}
+  {console.log("Product Images:", product.images)} 
+                <img src={product.images[currentImageIndex[i]]
+                } alt={`${product.title} - image ${currentImageIndex[i] + 1}`}  />
               </Link>
 
               <div className="discount-tag">
@@ -315,8 +354,13 @@ const handlefilter = (min, max, checked) => {
                 <span>({product.reviews})</span>
               </div>
 
-              <Link to={`/product/${product.id}`} className="product-title-link">
+              <Link to={`/product/${product.id}`   }
+          
+            className="product-title-link">
                 <h3 className="product-title">{product.title}</h3>
+                       {
+                console.log(product.id)
+              }
               </Link>
               <p className="description">{product.description}</p>
 
