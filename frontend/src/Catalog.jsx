@@ -90,7 +90,7 @@ const banners = [
  ];
   
 
-  const Catalog = ({setdata, setlist}) => {
+  const Catalog = ({setdata, setlist, }) => {
     // const [currentImageIndex, setCurrentImageIndex] = useState(products.map(() => 0)); //[0, 0, 0, 0, 0] keep tracking which image is shown 0-1
   const [currentImageIndex, setCurrentImageIndex] = useState([]); //[0, 0, 0, 0, 0] keep tracking which image is shown 0-1
   // State to track wishlist toggle for each product
@@ -101,6 +101,7 @@ const banners = [
  const [wishlist, setWishlist] = useState([]);
 
    const[products, setproducts]=useState([]);
+   const [originalProducts, setOriginalProducts] = useState([]);
   const [currentBanner, setCurrentBanner] = useState(0);
 
 useEffect(()=>{
@@ -111,8 +112,9 @@ useEffect(()=>{
          console.log("products fetched:", response.data);
                 // Set initial image index for each product after products are fetched
         setCurrentImageIndex(new Array(response.data.length).fill(0));
+           setOriginalProducts(response.data); 
+           setproducts(response.data);
 
-          setproducts(response.data);
     } catch (error) {
        console.error("Error fetching products:", error);
     }
@@ -123,7 +125,6 @@ useEffect(()=>{
 
 
 
-  
 
   const nextBanner = () => setCurrentBanner((prev) => (prev + 1) % banners.length);
   const prevBanner = () => setCurrentBanner((prev) => (prev - 1 + banners.length) % banners.length);
@@ -154,14 +155,28 @@ useEffect(()=>{
     });
   };
 
-     const handleaddtocart = ( id ) => {
-    const product= products.find((p)=>p.id === id);
-    // alert(`Added ${product.title}`);
-
-    setdata(prevCart => [...prevCart, product]);
-  //  setlocalcart( prevCart => [...prevCart, product]); //newCart = prevCart + product;
+  //    const handleaddtocart = ( id ) => {
+  //     console.log("Add to cart clicked for product ID:", id);
+  //     console.log("Current products list:", products);
+  //   const product= products.map((p)=>{p.id == id ? p : null })
+  //   // alert(`Added ${product.title}`);
+  //   console.log("Product added to cart:", product);
+  //   setdata(prevCart => [...(prevCart||[]), product]);
+  // //  setlocalcart( prevCart => [...prevCart, product]); //newCart = prevCart + product;
    
-  } ;
+  // } ;
+
+  const handleaddtocart = (id) => {
+  const product = products.find((p) => p._id === id);
+  if (product) {
+    console.log("Product added to cart:", product);
+    // Add the found product to the cart (prevCart)
+    setdata(prevCart => [...(prevCart || []), product]);
+  } else {
+    console.log("Product not found.");
+  }
+};
+
 
  const toggleWishlist = (id,index) => {
     alert("wishlist clicked");
@@ -171,7 +186,7 @@ useEffect(()=>{
 
 
               
-             const product=products.find(p=>p.id == id);
+             const product=products.find(p=>p._id == id);
             if(product){
               console.log("Product found for wishlist:", product);
 
@@ -185,10 +200,13 @@ useEffect(()=>{
    
 const handlefilter = (min, max, checked) => {
   
-  if(!checked){
-    setproducts(products);
-  }
+if (!checked ) {
+  setproducts(originalProducts)
+  console.error("getting all products?");
+ 
+}
  else{
+  console.log("Filtering products with min:", min, "max:", max);
           if(min>=0 && max<=5000){
           const filteredproducts =products.filter(p=>p.price >=min && p.price <=max);
             setproducts(filteredproducts);
@@ -220,7 +238,7 @@ const handlefilter = (min, max, checked) => {
 
   const handlefilterrating= (rating,checked) => {
    if(!checked){
-      setproducts(products);
+      setproducts(originalProducts)
    }
    else{
     if (rating>=4){ 
@@ -243,7 +261,7 @@ const handlefilter = (min, max, checked) => {
  const handlefilterreview =(reviews, checked)=>{
  
   if(!checked){
-    setproducts(products1);
+   setproducts(originalProducts)
   }
   else{
 
@@ -319,12 +337,10 @@ const handlefilter = (min, max, checked) => {
           ))} */}
 
              {products.map((product, i) => (
-          <article key={product.id} className="product-card">
+          <article key={product._id} className="product-card">
             <div className="productimg">
-              <Link to={`/product/${product.id}`}>
-               {console.log("Current Image Index:", currentImageIndex[i])}  {/* Log the current image index */}
-  {console.log("Product Images:", product.images)} 
-                <img src={product.images[currentImageIndex[i]]
+              <Link to={`/product/${product._id}`}>
+               <img src={product.images[currentImageIndex[i]]
                 } alt={`${product.title} - image ${currentImageIndex[i] + 1}`}  />
               </Link>
 
@@ -343,7 +359,7 @@ const handlefilter = (min, max, checked) => {
                 className={`wish ${wishlist[i] ? "active" : ""}`}
                 role="button"
                 aria-pressed={wishlist[i]}
-                onClick={() => toggleWishlist(product.id , i )} >
+                onClick={() => toggleWishlist(product._id , i )} >
                 {wishlist[i] ? "♥" : "♡"}
               </div>
             </div>
@@ -354,13 +370,8 @@ const handlefilter = (min, max, checked) => {
                 <span>({product.reviews})</span>
               </div>
 
-              <Link to={`/product/${product.id}`   }
-          
-            className="product-title-link">
+              <Link to={`/product/${product?._id}`}  className="product-title-link">
                 <h3 className="product-title">{product.title}</h3>
-                       {
-                console.log(product.id)
-              }
               </Link>
               <p className="description">{product.description}</p>
 
@@ -370,7 +381,7 @@ const handlefilter = (min, max, checked) => {
                 <span className="discount-percent">{product.discountPercent}% off</span>
               </div>
 
-              <button className="add-cart" onClick={() => {handleaddtocart(product.id)}}>
+              <button className="add-cart" onClick={() => {handleaddtocart(product._id)}}>
                 <FiShoppingBag /> Add to Cart
               </button>
             </div>

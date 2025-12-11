@@ -5,21 +5,23 @@ import Collection from './components/Collection.jsx';
 import Trust from './components/Trust.jsx';
 import Exclusive from './components/Exclusive.jsx';
 
-const Home = ( {setdata,setlist,cartRef}) => {
+const Home = ( {setdata,setlist,setproducts,products}) => {
 const [cart, setCart] = useState([]);
 const [wish,setwish] =useState([]);
+const [prod, setprod]= useState([]);
+
 useEffect(() => {
   setdata(cart);
   setlist(wish);
-  console.log("home to app :", cart);
-   console.log("home to app :", wish);
+  setprod(products);
+
 }, [cart, setCart, wish, setwish]);
 
   return (
     <div>
 
              <div id="collection">
-  <Collection setCart={setCart} setwish={setwish} cartRef={cartRef} />
+  <Collection setCart={setCart} setwish={setwish}  setprod={setprod} prod={prod} />
 </div>
 
 <div id="exclusive">

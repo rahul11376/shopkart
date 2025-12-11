@@ -78,7 +78,7 @@ const products = [
   }
 ];
 
-
+// mongodb+srv://v53866450_db_user:<db_password>@cart.yokvzxh.mongodb.net/?appName=cart
 async function seedDB() {
   try {
    await mongoose.connect("mongodb+srv://v53866450_db_user:6rRQOrx53jd9OLiI@cart.yokvzxh.mongodb.net/shopkartDB?appName=cart");

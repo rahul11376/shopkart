@@ -22,12 +22,13 @@ function App() {
   const [list, setlist] =useState([]);
   const[view, setview]= useState([]);
   const[item, setitem]= useState([]);
+ const [products, setproducts] = useState([]);
 
-
+  
 
 
   useEffect(() => {
- console.log("App present list:", view);
+ 
   },[data,list, view]);
 
   return (
@@ -55,7 +56,7 @@ function App() {
           <>
            <Featureimage />
            <div className="container">
-          <Home setdata ={setdata} setlist ={setlist}     />
+          <Home setdata ={setdata} setlist ={setlist} setproducts={setproducts} products={products}    />
            </div>
             <Trust />
             <Footer />
@@ -71,7 +72,7 @@ function App() {
           <>
           
            <div className="container">
-          <Catalog  setdata ={setdata} setlist ={setlist} />
+          <Catalog  setdata ={setdata} setlist ={setlist} setproducts={setproducts} products={products} />
            </div>
             <Trust />
             <Footer />
@@ -108,7 +109,7 @@ function App() {
             <Route path="/Cart" element={
           <>
            <div className="container">
-          < Cart data ={data} view={view} item={item}/>
+          < Cart data ={data} view={view} item={item} />
            </div>
             <Footer />
           </>
@@ -118,6 +119,7 @@ function App() {
 
        
 <Route path="/product/:id" element={
+  
   <>
     <div className="container">
       <ProductView setview={setview} />
@@ -126,6 +128,7 @@ function App() {
     <Footer />
   </>
 } />
+
 
 <Route path="/Four" element={
   <>
@@ -136,8 +139,6 @@ function App() {
     <Footer />
   </>
 } />
-
-
 
        </Routes>
 

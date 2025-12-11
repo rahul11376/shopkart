@@ -87,34 +87,15 @@ import axios from 'axios';
 // ];
 
 const ProductView = ({setview}) => {
-  const { id } = useParams();
+   const { id } = useParams();  // <-- yahi route param milta hai
 
+ 
 
-useEffect(()=>{
-  const fetchProducts = async () => {
+if (!id) {
+  console.log("No valid product ID in URL");   
+  return;  
+ }
 
-      console.log("Product ID from URL:", id);  // Debugging to ensure we get the ID
-
-      if (!id) {
-        console.log("No valid product ID in URL");
-        return;  // Don't proceed if there's no valid ID
-      }
-
-
-
-      try{
-const res =  await axios.get(`http://localhost:5000/api/products/${id}`);
-Console.log("product fetched",res)
-Setproducts(res.data);
-  }
-catch(err)
-{
-  console.log(err);
-}
-  }
-  fetchProducts();
-
-},[id]);
 
 
     // Check if this prints the correct ID
@@ -126,22 +107,49 @@ catch(err)
   const [isopen, setopen] = useState(false);
   const [product, Setproducts]= useState(null);
   
-  const [selectedImage, setSelectedImage] = useState(
-    ''
-    // product.images[0]
-  );
+  const [selectedImage, setSelectedImage] = useState(0);
 
   //console.log("PRODUCT ",product)
 
 
-      if (!product) {
-    return (
-      <Wrapper>
-        <h2>Product Not Found</h2>
-        <Link to="/">Go back to Home</Link>
-      </Wrapper>
-    );
-  }
+
+
+useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/products/${id}`);
+      console.log("products fetched:", response.data);
+      Setproducts(response.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  if (id) fetchProducts(); // only fetch if id exists
+}, [id]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //     if (!product) {
+  //   return (
+  //     <Wrapper>
+  //       <h2>Product Not Found</h2>
+  //       <Link to="/">Go back to Home</Link>
+  //     </Wrapper>
+  //   );
+  // }
 
   const handleAddToCart = (id) => {
       // alert( alert(`Added ${product.title}`));
@@ -153,7 +161,7 @@ catch(err)
     }, 1000);
     
     //const product = products.find((p) => p.id == id);
-    console.log("product view to app:", product);
+   // console.log("product view to app:", product);
     setview(prevview => [...prevview, product]);
   
   };
@@ -175,7 +183,8 @@ catch(err)
     name: '',
     email: ''
   });
-  const [rating, setRating] = useState(product.rating || 0);
+
+  const [rating, setRating] = useState( 0);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -196,7 +205,7 @@ catch(err)
         <div className="box">
         <div className="image-gallery">
           <div className="thumbnail-gallery">
-            {product.images.map((img, idx) => (
+            {product?.images?.map((img, idx) => (
               <img
                 key={idx}
                 src={img}
@@ -211,17 +220,17 @@ catch(err)
         </div>
 
         <div className="details">
-          <div className='bestseller'> <span>{product.brand}</span></div>
-          <h1>{product.title}</h1>
+          <div className='bestseller'> <span>{product?.brand}</span></div>
+          <h1>{product?.title}</h1>
           {/* <p className="description">{product.description}</p> */}
           <div className="price">
-            ₹{product.price.toLocaleString()}
-            <small>₹{product.originalPrice.toLocaleString()}</small>
-            <span className="discount">{product.discountPercent}% off</span>
+            ₹{product?.price.toLocaleString()}
+            <small>₹{product?.originalPrice.toLocaleString()}</small>
+            <span className="discount">{product?.discountPercent}% off</span>
           </div>
           <p>Inclusive of all taxes*</p>
           <div className="btnaddbuy">
-            <button onClick={()=>{handleAddToCart(product.id)}} className="add-cart-btn" disabled={isInCart || isLoading}>
+            <button onClick={()=>{handleAddToCart(product?._id)}} className="add-cart-btn" disabled={isInCart || isLoading}>
               {isLoading ? 'Adding...' : isInCart ? 'Added to Cart' : <><FiShoppingBag /> Add to Cart</>}
             </button>
             <button className="add-cart-btn" disabled={isInCart || isLoading}>
@@ -230,7 +239,7 @@ catch(err)
           </div>
           <div className="box">
             <p>⛟</p>
-            <p className="delivery-info">Check Delivery Availability: {product.deliveryDate}</p>
+            <p className="delivery-info">Check Delivery Availability: {product?.deliveryDate}</p>
             <p> ≫ </p>
           </div>
           <div className="box">
@@ -272,7 +281,7 @@ catch(err)
            
           </div>
           { isopen === 'desc' && (
-            <div className="boxheight" >  <p>{product.description}</p></div>
+            <div className="boxheight" >  <p>{product?.description}</p></div>
            )}
 
 
@@ -281,7 +290,7 @@ catch(err)
             <icon>⌄</icon>
           </div>
           { isopen === 'spec' && (
-            <div className="boxheight"  > <p>{product.title}</p></div>
+            <div className="boxheight"  > <p>{product?.title}</p></div>
            )}
 
 
@@ -290,7 +299,7 @@ catch(err)
             <icon>⌄</icon>
           </div>
           { isopen === 'spet' && (
-            <div className="boxheight"  > <p>{product.title}</p></div>
+            <div className="boxheight"  > <p>{product?.title}</p></div>
            )}
 
           <div className="boxsmall" onClick={() => handlerinfo('spen')}>
@@ -298,7 +307,7 @@ catch(err)
             <icon>⌄</icon>
           </div>
          { isopen === 'spen' && (
-            <div className="boxheight"  > <p>{product.title}</p></div>
+            <div className="boxheight"  > <p>{product?.title}</p></div>
            )}
 
 

@@ -60,6 +60,7 @@ useEffect(() => {
  
 // console.log("cart data in cart:",cartItems.push(qty)  );
   
+console.log("cart items in cart component:",cartItems );
 
  // current progress step
    
