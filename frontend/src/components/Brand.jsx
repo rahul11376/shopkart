@@ -20,7 +20,7 @@ const Brand = () => {
           <button className="cta">Discover Our Story</button>
         </div>
         <div className="story-image">
-          <img src="\public\brandstory.jpg" alt="Luxury watch craftsmanship" />
+          <img src="/public/brandstory.jpg" alt="Luxury watch craftsmanship" />
         </div>
       </BrandStory>
 
