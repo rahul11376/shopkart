@@ -14,7 +14,7 @@ const VIPLaunch = () => {
         <button className="cta">Explore Collection</button>
       </div>
       <div className="vip-image">
-        <img src="\public\LIMITED.jpg" alt="Limited Edition Watch" />
+        <img src="/LIMITED.jpg" alt="Limited Edition Watch" />
       </div>
     </VIP>
   )
