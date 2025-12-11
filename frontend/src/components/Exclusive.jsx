@@ -4,7 +4,8 @@ import styled from 'styled-components';
 const Exclusive = () => {
   return (
     <Wrapper>
-      <img src="/exclusive.jpg" alt="Exclusive" />
+      <img src="dist/exclusive.jpg" alt="Exclusive" />
+     
       <Overlay>
         <h1> Exclusive Timepiece Collection</h1>
         <p>Limited editions crafted for connoisseurs of luxury.</p>
