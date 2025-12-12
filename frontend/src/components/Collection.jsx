@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { FiShoppingBag } from 'react-icons/fi';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import  axios from 'axios';
+
 // Sample product data array (different products with unique IDs)
 // const products = [
 //   {
@@ -82,7 +82,7 @@ import  axios from 'axios';
 //   }
 // ];
 
-const Collection = ({setCart,setwish,setprod,prod }) => {
+const Collection = ({setCart,setwish,prod }) => {
    
   
   const [products, setProduct] = useState([]);
@@ -95,15 +95,16 @@ const Collection = ({setCart,setwish,setprod,prod }) => {
  const [cart, setlocalcart] = useState([]);
   // const cart = []; // 
   
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState([]);
+
+
+
+  useEffect(() => {
+  setCurrentImageIndex(products.map(() => 0));
+}, [products]);
   
-  const [wishlist, setWishlist] = useState(0);
+  const [wishlist, setWishlist] = useState([]);
 ////////////////////////////////////
-
-
-
-
-
 
 
   const nextImage = (index) => {
@@ -122,20 +123,33 @@ const Collection = ({setCart,setwish,setprod,prod }) => {
     });
   };
 
-  const toggleWishlist = (index,id) => {
-    alert("wishlist clicked");
-        // Toggle local UI
-    const newUI =[...wishlist];
-    newUI[index] = !newUI[index];
-    setWishlist(newUI);
+//   const toggleWishlist = (index,id) => {
+//         // Toggle local UI
+//     const newUI =[...wishlist];
+//     newUI[index] = !newUI[index];
+//     setWishlist(newUI);
    
-  const product=products.find(p=>p.id === id);
- console.log("collection to home", [product]);
-setwish(prevwish => [...prevwish, product]);
+// const product=products.find(p=>p._id === id);
+// setwish(prevwish => [...prevwish, product]);
 
-  };
+//   };
 
+const toggleWishlist = (index, id) => {
+ 
+  const newUI = [...wishlist];
+  newUI[index] = !newUI[index];
+  setWishlist(newUI);
 
+  
+  const product = products.find(p => p._id === id);
+
+  if (!product) {
+    console.warn("Product not found:", id);
+    return; 
+  }
+
+  setwish(prevwish => [...prevwish, product]);
+};
 
 
 
@@ -145,7 +159,7 @@ const handleaddtocart = (id) => {
           
            setTimeout(() => {
            
-              const product = products.find((p) => p.id === id);
+              const product = products.find((p) => p._id === id);
               setCart((prevCart) => [...prevCart, product]); }, 500);
              
        };
@@ -163,14 +177,14 @@ useEffect(() => {
       <h2 className="headline">Best Sellers</h2>
 
       <div className="grid-container">
-        {products.map((product, i) => (
-          <article key={product.id} className="product-card"
+        {products?.map((product, i) => (
+          <article key={product._id} className="product-card"
           
          
           >
            
             <div className="productimg">
-              <Link to={`/product/${product.id}`}>
+              <Link to={`/product/${product._id}`}>
                 <img src={product.images[currentImageIndex[i]]} alt={`${product.title} - image ${currentImageIndex[i] + 1}`} />
               </Link>
 
@@ -189,7 +203,7 @@ useEffect(() => {
                 className={`wish ${wishlist[i] ? "active" : ""}`}
                 role="button"
                 aria-pressed={wishlist[i]}
-                onClick={() => toggleWishlist(i,product.id)}
+                onClick={() => toggleWishlist(i,product._id)}
               >
                 {wishlist[i] ? "♥" : "♡"}
               </div>
@@ -212,7 +226,7 @@ useEffect(() => {
                 <span className="discount-percent">{product.discountPercent}% off</span>
               </div>
 
-              <button     className="add-cart" onClick={() => handleaddtocart(product.id)}>
+              <button     className="add-cart" onClick={() => handleaddtocart(product._id)}>
                 <FiShoppingBag /> Add to Cart
               </button>
             </div>

@@ -16,6 +16,7 @@ import Cart from './Cart.jsx';
 import ProductView from './components/Productview.jsx';
  import Four from './Route/Four.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import axios from 'axios';
 
 function App() {
   const [data, setdata] = useState(null );
@@ -25,6 +26,20 @@ function App() {
  const [products, setproducts] = useState([]);
 
   
+useEffect(() => {
+    // Fetch products from the backend API
+    const fetchproducts =async () => {
+      try {
+        const res = await axios('http://localhost:5000/api/products');
+        console.log("response from backend:", res.data);
+        setproducts(res.data); 
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+    fetchproducts();
+}, []);
+
 
 
   useEffect(() => {

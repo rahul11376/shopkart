@@ -90,7 +90,7 @@ const banners = [
  ];
   
 
-  const Catalog = ({setdata, setlist, }) => {
+  const Catalog = ({setdata, setlist,products, setproducts }) => {
     // const [currentImageIndex, setCurrentImageIndex] = useState(products.map(() => 0)); //[0, 0, 0, 0, 0] keep tracking which image is shown 0-1
   const [currentImageIndex, setCurrentImageIndex] = useState([]); //[0, 0, 0, 0, 0] keep tracking which image is shown 0-1
   // State to track wishlist toggle for each product
@@ -100,27 +100,19 @@ const banners = [
   // const [wishlist, setWishlist] = useState(products.map(() => false));
  const [wishlist, setWishlist] = useState([]);
 
-   const[products, setproducts]=useState([]);
+  //  const[products, setproducts]=useState([]);
    const [originalProducts, setOriginalProducts] = useState([]);
   const [currentBanner, setCurrentBanner] = useState(0);
 
-useEffect(()=>{
+ useEffect(()=>{
 
-  const fetchProducts = async () => {
-    try {
-         const response = await axios.get ('http://localhost:5000/api/products');
-         console.log("products fetched:", response.data);
                 // Set initial image index for each product after products are fetched
-        setCurrentImageIndex(new Array(response.data.length).fill(0));
-           setOriginalProducts(response.data); 
-           setproducts(response.data);
+      setCurrentImageIndex(new Array(products.length).fill(0));
+          setOriginalProducts(products); 
 
-    } catch (error) {
-       console.error("Error fetching products:", error);
-    }
-  }
-    fetchProducts();
-},[]);
+
+
+ },[]);
 
 
 
@@ -336,7 +328,7 @@ if (!checked ) {
             </ProductCard>
           ))} */}
 
-             {products.map((product, i) => (
+             {products?.map((product, i) => (
           <article key={product._id} className="product-card">
             <div className="productimg">
               <Link to={`/product/${product._id}`}>

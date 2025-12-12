@@ -9,6 +9,13 @@ import { Link } from 'react-router-dom'
 
 const Navbar = ({data, view, item}) => {
   const [count, setCount] = useState(0);
+   
+
+
+
+
+ 
+
 
   useEffect(() => {
     const newCartItems = [
@@ -21,8 +28,7 @@ const Navbar = ({data, view, item}) => {
 
   }, [data, view, item]);
 
-  console.log("navbar_count", count);
-
+ // console.log("navbar_count", count);
 
   return (
     <Nav>
@@ -34,7 +40,9 @@ const Navbar = ({data, view, item}) => {
         </div>
         <div className="logo">Raynox & Co</div>
         <div className="cart">
-          <Link to="/wishlist"><SiWish /></Link>
+          <Link to="/wishlist">
+          <SiWish /> 
+          </Link>
 
            <Link to="/cart" className='cart_icon'>
            <FaCartArrowDown />  {count > 0 && <span className="badge">{count}</span>}
@@ -127,7 +135,13 @@ const Nav = styled.nav`
   top:-8px;
  color:gold;
 }
+.badge-wishlist{
+   position: absolute;
+  top:-8px;
+ color:gold;
 
+
+}
 
 
 

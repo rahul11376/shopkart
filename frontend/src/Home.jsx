@@ -5,7 +5,7 @@ import Collection from './components/Collection.jsx';
 import Trust from './components/Trust.jsx';
 import Exclusive from './components/Exclusive.jsx';
 
-const Home = ( {setdata,setlist,setproducts,products}) => {
+const Home = ( {setdata,setlist,products,setproducts}) => {
 const [cart, setCart] = useState([]);
 const [wish,setwish] =useState([]);
 const [prod, setprod]= useState([]);
@@ -20,7 +20,7 @@ useEffect(() => {
   return (
     <div>
 
-             <div id="collection">
+   <div id="collection">
   <Collection setCart={setCart} setwish={setwish}  setprod={setprod} prod={prod} />
 </div>
 

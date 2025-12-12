@@ -7,69 +7,49 @@ const Cart = ({data,view,item}) => {
 
   // console.log("cart data from app:", data);
  const [step, setstep] =useState(1);
-  const [cartItems, setCartItems] = useState(
-    [
-    // {
-    //   id: 1,
-    //   title:
-    //   "Titan Quartz Analog with Day and Date Black Dial Stainless Steel Strap",
-    //   price: 2595,
-    //   reviews: 45,
-    //   discountpercent: 260,
-    //   originalPrice: 1995,
-    //   qty: 1,
-    //   image: "1595SL06_1.webp",
-    //   color: "Black",
-    // },
-   ]
-  );
-
-//0
-// : 
-// id: "1"
-// title :  "Signature Timepiece"
-// price: 1250
-// reviews :  45
-// description :  "Elegant watch with stainless steel finish"
-// discountPercent :  37
-// originalPrice :  1995
-// images :  (5) ['/1802SL06_2.webp', '/1802SL06_3.webp', '/1802SL06_4.webp', '/1802SL06_5.webp', '/1802SL06_6.webp']
-// rating :  4
-//qty? color?
-
-
-console.log("view data in cart component:",view );
-// length: Array(0)
-// useEffect(() => {
-//   if(data && data.length > 0){
-//  setCartItems(data);
-// setCartItems(view);
-//   }
- 
-// },[data,view]);
-
-
+  const [cartItems, setCartItems] = useState([]);
 useEffect(() => {
-  const newCartItems = [
+  const mergeItems = [
     ...(Array.isArray(data) ? data : []),
     ...(Array.isArray(view) ? view : []),
     ...(Array.isArray(item) ? item : []),
   ];
-  setCartItems(newCartItems);
-}, [data, view,item]);
- 
-// console.log("cart data in cart:",cartItems.push(qty)  );
-  
-console.log("cart items in cart component:",cartItems );
+
+  const merged = mergeItems.reduce((acc, p) => {
+
+    // acc --accumulator array , p-- current product, x -- existing product in acc
+    const existing = acc.find((x) => x._id === p._id);
+    if (existing) {
+      // product exists → increment quantity
+      existing.quantity = (Number(existing.quantity) || 1) + (Number(p.quantity) || 1);
+    } else {
+      // new product → default quantity to 1
+      acc.push({ ...p, quantity: Number(p.quantity) || 1 });
+    }
+    return acc;
+  }, []);
+
+  setCartItems(merged);
+}, [data, view, item]);
+
+
+
+
+
 
  // current progress step
    
 const subtotal = cartItems?.reduce((sum, item) => {
+   if (!item) return sum; 
   const price = Number(item.price) || 0;
   const quantity = Number(item.quantity) || 0;
   return sum + price * quantity;
 }, 0);
-  const discount = cartItems?.reduce((sum, item) => sum + item.discountPercent, 0);
+  const discount = cartItems.reduce((sum, item) => {
+  if (!item || typeof item !== "object") return sum; // skip invalid entries
+  return sum + (item.discountPercent ?? 0); // null-safe operator
+}, 0);
+  
   const total = subtotal - discount;
 
   const formatCurrency = (num) =>
@@ -167,7 +147,7 @@ const handlecancel=(e)=>{
             {formatCurrency(total)})
           </h4>
           {cartItems.map((item) => (
-            <CartItem key={item.id}>
+            <CartItem key={item._id}>
               <img src={item.images?.[0]} alt={item.title} />
               <Details>
                 <h3>{item.title}</h3>
@@ -178,35 +158,34 @@ const handlecancel=(e)=>{
                 </p>
                 <p>Color: {item.color}</p>
                 <Actions>
-                  <Quantity>
-                    
+                  <Quantity>                  
                     <button
-                      onClick={() =>
-                        setCartItems((prev) =>
-                          prev.map((ci) =>
-                            ci.id === item.id && ci.quantity > 1
-                              ? { ...ci, quantity: ci.quantity - 1 }
-                              : ci
-                          )
-                        )
-                      }
-                      disabled={item.quantity === 1}
+                    onClick={() =>
+                    setCartItems((prev) =>
+                      prev.map((ci) =>
+                        ci._id === item._id && ((Number(ci.quantity) || 1) > 1)
+                          ? { ...ci, quantity: (Number(ci.quantity) || 1) - 1 }
+                          : ci
+                      )
+                    )
+                  }
+                  disabled={(Number(item.quantity) || 1) === 1}
+
+
                     >
                       -
                     </button>
                     <span>{item.quantity}</span>
                     <button
                       onClick={() =>
-                        setCartItems(
-                          (prev) =>
-                          prev.map((ci) =>
-                            ci.id === item.id
-                           
-                              ? { ...ci, quantity: ci.quantity + 1 }
-                               : ci
-                          )
-                         )
-                      }
+                      setCartItems((prev) =>
+                        prev.map((ci) =>
+                          ci._id === item._id
+                            ? { ...ci, quantity: (Number(ci.quantity) || 1) + 1 }
+                            : ci
+                        )
+                      )
+                    }
                     >
                       +
                     </button>
@@ -214,7 +193,7 @@ const handlecancel=(e)=>{
                   <Delete
                     onClick={() =>
                       setCartItems((prev) =>
-                        prev.filter((ci) => ci.id !== item.id)
+                        prev.filter((ci) => ci._id !== item._id)
                       )
                     }
                   >
