@@ -177,7 +177,7 @@ useEffect(() => {
       <h2 className="headline">Best Sellers</h2>
 
       <div className="grid-container">
-        {products?.map((product, i) => (
+        {products?.slice(0, 4).map((product, i) => (
           <article key={product._id} className="product-card"
           
          
