@@ -4,6 +4,7 @@ import { FiTrash2 } from "react-icons/fi";
 import { MdLock } from "react-icons/md";
 
 const Cart = ({data,view,item}) => {
+   window.scrollTo(0, 0);
 
   // console.log("cart data from app:", data);
  const [step, setstep] =useState(1);

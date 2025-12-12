@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FiTrash2, FiShoppingCart } from "react-icons/fi";
 
 const Wishlist = ({list,setitem}) => {
+   window.scrollTo(0, 0);
   const [wishlistItems, setWishlistItems] = useState(
 
     [

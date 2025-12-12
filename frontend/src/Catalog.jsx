@@ -91,13 +91,10 @@ const banners = [
   
 
   const Catalog = ({setdata, setlist,products, setproducts }) => {
-    // const [currentImageIndex, setCurrentImageIndex] = useState(products.map(() => 0)); //[0, 0, 0, 0, 0] keep tracking which image is shown 0-1
+    window.scrollTo(0, 0);
+   
   const [currentImageIndex, setCurrentImageIndex] = useState([]); //[0, 0, 0, 0, 0] keep tracking which image is shown 0-1
-  // State to track wishlist toggle for each product
-  // const [wishlist, setWishlist] = useState(products.map(() => false));
 
-     // State to track wishlist toggle for each product
-  // const [wishlist, setWishlist] = useState(products.map(() => false));
  const [wishlist, setWishlist] = useState([]);
 
   //  const[products, setproducts]=useState([]);
@@ -124,13 +121,6 @@ const banners = [
 
 
 
-
-
-
- 
-
-
-
   const nextImage = (index) => {
     setCurrentImageIndex(prev => {
       const newIndexes = [...prev];
@@ -138,6 +128,7 @@ const banners = [
       return newIndexes;
     });
   };
+// prev means currrent 
 
   const prevImage = (index) => {
     setCurrentImageIndex(prev => {

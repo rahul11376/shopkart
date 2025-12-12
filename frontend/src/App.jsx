@@ -2,12 +2,8 @@ import React, { useEffect, useState,useRef } from 'react';
 import './App.css';
 import Navbar from './components/navbar.jsx';
 import Featureimage from './components/Featureimage.jsx';
-import Collection from './components/Collection.jsx';
 import Trust from './components/Trust.jsx';
 import Footer from './components/Footer.jsx';
-import Brand from './components/Brand.jsx';
-import VIPLaunch from './components/VIPLaunch.jsx';
-import Exclusive from './components/Exclusive.jsx';
 import Home from './Home.jsx';
 import Catalog from './Catalog.jsx';
 import Contact from './Contact.jsx';
@@ -19,6 +15,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 
 function App() {
+   window.scrollTo(0, 0);
   const [data, setdata] = useState(null );
   const [list, setlist] =useState([]);
   const[view, setview]= useState([]);
@@ -41,6 +38,36 @@ useEffect(() => {
 }, []);
 
 
+useEffect(()=>{
+ const createfun= async ()=>{
+  try {
+    const res = await axios.post ('http://localhost:5000/api/products',{
+      
+  // "title": "Signature Timepiece2",
+  // "description": "Elevate your style",
+  // "images": [
+  //   "/1802SL06_2.webp",
+  //   "/1802SL06_3.webp",
+  //   "/1802SL06_4.webp",
+  //   "/1802SL06_5.webp",
+  //   "/1802SL06_6.webp"
+  // ],
+  // "originalPrice": 2000,
+  // "price": 1200,
+  // "discountPercent": 37,
+  // "rating": 4,
+  // "reviews": 45
+
+
+    });
+    console.log("product created:", res);
+  } catch (error) {
+    console.error('Error creating product:', error);
+  }
+ }
+  createfun();
+},[])
+
 
   useEffect(() => {
  
@@ -49,113 +76,88 @@ useEffect(() => {
   return (
   <Router>
          <Navbar data={data} item={item} view={view} />
-      <Routes>
+      <Routes>   
 
-             {/* Home page */}
-        {/* <Route path="/" element={
-          <>
-            <Featureimage />
-           < Exclusive />
-            <div className="container">
-              <Collection />
-              <Brand />
-              <VIPLaunch />
-              <Trust />
-            </div>
-             <Footer />
-          </>
-        } /> */}
-        {/* Other routes can be added here*/}
-         
         <Route path="/" element={
           <>
-           <Featureimage />
-           <div className="container">
-          <Home setdata ={setdata} setlist ={setlist} setproducts={setproducts} products={products}    />
-           </div>
-            <Trust />
-            <Footer />
+              <Featureimage />
+              <div className="container">
+              <Home setdata ={setdata} setlist ={setlist} setproducts={setproducts} products={products}    />
+              </div>
+              <Trust />
+              <Footer />
           </>
-            
-        }
-          />
+              }
+        />
 
-
-
-      
         <Route path="/catalog" element={
           <>
-          
-           <div className="container">
-          <Catalog  setdata ={setdata} setlist ={setlist} setproducts={setproducts} products={products} />
-           </div>
-            <Trust />
-            <Footer />
+              <div className="container">
+              <Catalog  setdata ={setdata} setlist ={setlist} setproducts={setproducts} products={products} />
+              </div>
+              <Trust />
+              <Footer />
           </>
-            
-            
+           }
+       />
 
-        }
-          />
-            <Route path="/contact" element={
-              <>
+         <Route path="/contact" element={
+           <>
                <div className="container">
-          <Contact/>
-           </div>
-             <Footer />
+               <Contact/>
+               </div>
+               <Footer />
            </>
             
-        }
-          />
-       
-    
-
-         <Route path="/wishlist" element={
-          <>
-         
-           <div className="container">
-          <Wishlist  list={list} setitem={setitem}/> 
-           </div>
-            <Footer />
-          </>
-        }
-          />
-
-            <Route path="/Cart" element={
-          <>
-           <div className="container">
-          < Cart data ={data} view={view} item={item} />
-           </div>
-            <Footer />
-          </>
-        }
+          }
         />
        
+    
+
+      <Route path="/wishlist" element={
+           <>
+              <div className="container">
+              <Wishlist  list={list} setitem={setitem}/> 
+              </div>
+              <Footer />
+          </>
+        }
+     />
+
+      <Route path="/Cart" element={
+          <>
+              <div className="container">
+              < Cart data ={data} view={view} item={item} />
+              </div>
+              <Footer />
+          </>
+        }
+      />
+       
 
        
-<Route path="/product/:id" element={
+      <Route path="/product/:id" element={
   
-  <>
-    <div className="container">
-      <ProductView setview={setview} />
-    </div>
-    <Trust />
-    <Footer />
-  </>
-} />
+          <>
+            <div className="container">
+            <ProductView setview={setview} />
+            </div>
+            <Trust />
+            <Footer />
+         </>
+        } 
+      />
 
 
-<Route path="/Four" element={
-  <>
-    <div className="container">
-     <Four/>
-    </div>
-    
-    <Footer />
-  </>
-} />
-
-       </Routes>
+     <Route path="/Four" element={
+     <>
+            <div className="container">
+            <Four/>
+            </div>
+            <Footer />
+     </>
+     } />
+   </Routes>
 
  </Router>
   );
