@@ -15,6 +15,7 @@ import ProductView from './components/Productview.jsx';
  import Four from './Route/Four.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Hidebar from './components/Hidebar.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 import axios from 'axios';
 
 function App() {
@@ -47,23 +48,6 @@ useEffect(()=>{
  const createfun= async ()=>{
   try {
     const res = await axios.post ('http://localhost:5000/api/products',{
-      
-  // "title": "Signature Timepiece2",
-  // "description": "Elevate your style",
-  // "images": [
-  //   "/1802SL06_2.webp",
-  //   "/1802SL06_3.webp",
-  //   "/1802SL06_4.webp",
-  //   "/1802SL06_5.webp",
-  //   "/1802SL06_6.webp"
-  // ],
-  // "originalPrice": 2000,
-  // "price": 1200,
-  // "discountPercent": 37,
-  // "rating": 4,
-  // "reviews": 45
-
-
     });
    // console.log("product created:", res);
   } catch (error) {
@@ -85,18 +69,23 @@ useEffect(()=>{
       <Routes>   
 
         <Route path="/" element={
+          <ProtectedRoute>
           <>
               <Featureimage />
               <div className="container">
+                
               <Home setdata ={setdata} setlist ={setlist} setproducts={setproducts} products={products}    />
+            
               </div>
               <Trust />
               <Footer />
           </>
+            </ProtectedRoute>
               }
         />
 
         <Route path="/catalog" element={
+           <ProtectedRoute>
           <>
               <div className="container">
               <Catalog  setdata ={setdata} setlist ={setlist} setproducts={setproducts} products={products} />
@@ -104,46 +93,52 @@ useEffect(()=>{
               <Trust />
               <Footer />
           </>
+          </ProtectedRoute>
            }
        />
 
          <Route path="/contact" element={
+          <ProtectedRoute>
            <>
                <div className="container">
                <Contact/>
                </div>
                <Footer />
            </>
-            
+               </ProtectedRoute>
           }
         />
        
     
 
       <Route path="/wishlist" element={
+        <ProtectedRoute>
            <>
               <div className="container">
               <Wishlist  list={list} setitem={setitem}/> 
               </div>
               <Footer />
           </>
+          </ProtectedRoute>
         }
      />
 
       <Route path="/Cart" element={
+        <ProtectedRoute>
           <>
               <div className="container">
               < Cart data ={data} view={view} item={item} />
               </div>
               <Footer />
           </>
+           </ProtectedRoute>
         }
       />
        
 
        
       <Route path="/product/:id" element={
-  
+   <ProtectedRoute>
           <>
             <div className="container">
             <ProductView setview={setview} />
@@ -151,17 +146,21 @@ useEffect(()=>{
             <Trust />
             <Footer />
          </>
+         </ProtectedRoute>
         } 
       />
 
 
      <Route path="/Four" element={
+       <ProtectedRoute>
      <>
             <div className="container">
             <Four/>
             </div>
             <Footer />
+           
      </>
+      </ProtectedRoute>
      } />
 
  <Route path="/Login" element={
