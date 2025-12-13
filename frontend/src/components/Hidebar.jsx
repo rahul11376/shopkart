@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 const Hidebar = ({ children }) => {
 
   const location = useLocation();
-  console.log("Current location:", location.pathname);
+  //console.log("Current location:", location.pathname);
   const hideRoutes = ['/Login', '/Signup'];
   if (hideRoutes.includes(location.pathname)) return null;
 

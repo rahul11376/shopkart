@@ -33,7 +33,7 @@ useEffect(() => {
     const fetchproducts =async () => {
       try {
         const res = await axios('http://localhost:5000/api/products');
-        console.log("response from backend:", res.data);
+     //   console.log("response from backend:", res.data);
         setproducts(res.data); 
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -65,7 +65,7 @@ useEffect(()=>{
 
 
     });
-    console.log("product created:", res);
+   // console.log("product created:", res);
   } catch (error) {
     console.error('Error creating product:', error);
   }

@@ -16,6 +16,7 @@ connectDB();
 
 // routes
 app.use('/api/products', productRoutes);
+app.use('/api/auth', productRoutes);
 
 app.get('/',(req,res)=>{
     res.send("Server is running");

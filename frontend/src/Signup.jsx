@@ -1,16 +1,35 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
-
+import axios from "axios";
 const Signup = () => {
   const [step, setStep] = useState("signup"); // signup, emailVerification, success
   const [email, setEmail] = useState("");
 
-  const handleSignupSubmit = (e) => {
+ 
+  const handleSignupSubmit = async(e) => {
     e.preventDefault();
+
     // Grab the email from the form and go to verification step
     const formData = new FormData(e.target);
-    const emailValue = formData.get("email");
-    setEmail(emailValue);
+    const emailvalue =formData.get("email");
+    const payload ={
+        fullName: formData.get("fullName"),
+        email:emailvalue,
+        password: formData.get("password")
+    }
+    console.log("formData",payload);
+  //  console.log( "payload",emailValue,password);
+
+    setEmail(emailvalue);
+
+    try {
+            const res =await axios.post("http://localhost:5000/api/auth/Signup",payload);
+            console.log(res);
+        } catch (error) {
+            console.log("error in signup",error);
+        }
+
     setStep("emailVerification");
   };
 
@@ -20,6 +39,7 @@ const Signup = () => {
 
   const handleEnterApp = () => {
     alert("Entering the app...");
+    location.href = "/Login"; // Redirect to home
   };
 
   return (
@@ -50,7 +70,7 @@ const Signup = () => {
           </form>
 
           <FooterText>
-            Already have an account? <Link href="#">Sign in</Link>
+            Already have an account? <Link href="/Login">Sign in</Link>
           </FooterText>
         </Card>
       )}
@@ -226,135 +246,3 @@ const Bold = styled.span`
 
 
 
-
-
-
-
-
-// import React from "react";
-// import styled from "styled-components";
-
-// const Signup = () => {
-//   return (
-//     <Page>
-//       <Card>
-//         <Brand>
-//           <Logo>
-//             Shop<Highlight>Kart</Highlight>
-//           </Logo>
-//           <Subtitle>Create your ShopKart account</Subtitle>
-//         </Brand>
-
-//         <form>
-//           <Label>Full Name</Label>
-//           <Input type="text" placeholder="John Doe" />
-
-//           <Label>Email Address</Label>
-//           <Input type="email" placeholder="you@shopkart.com" />
-
-//           <Label>Password</Label>
-//           <Input type="password" placeholder="••••••••" />
-
-//           <Label>Confirm Password</Label>
-//           <Input type="password" placeholder="••••••••" />
-
-//           <Button type="submit">Create Account</Button>
-//         </form>
-
-//         <FooterText>
-//           Already have an account? <Link href="#">Sign in</Link>
-//         </FooterText>
-//       </Card>
-//     </Page>
-//   );
-// };
-
-// export default Signup;
-
-// const Page = styled.div`
-//   min-height: 100vh;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   background: linear-gradient(135deg, #f5f5f5, #eaeaea);
-// `;
-
-// const Card = styled.div`
-//   width: 100%;
-//   max-width: 400px;
-//   background: #ffffff;
-//   padding: 32px;
-//   border-radius: 18px;
-//   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-// `;
-
-// const Brand = styled.div`
-//   text-align: center;
-//   margin-bottom: 22px;
-// `;
-
-// const Logo = styled.h1`
-//   font-size: 26px;
-//   font-weight: 700;
-//   letter-spacing: 1px;
-// `;
-
-// const Highlight = styled.span`
-//   color: #b88a44;
-// `;
-
-// const Subtitle = styled.p`
-//   font-size: 14px;
-//   color: #6b7280;
-//   margin-top: 4px;
-// `;
-
-// const Label = styled.label`
-//   font-size: 13px;
-//   margin-bottom: 6px;
-//   display: block;
-//   font-weight: 500;
-// `;
-
-// const Input = styled.input`
-//   width: 100%;
-//   padding: 12px;
-//   margin-bottom: 14px;
-//   border-radius: 8px;
-//   border: 1px solid #d1d5db;
-//   outline: none;
-
-//   &:focus {
-//     border-color: #b88a44;
-//   }
-// `;
-
-// const Button = styled.button`
-//   width: 100%;
-//   padding: 13px;
-//   border-radius: 10px;
-//   border: none;
-//   background: #111827;
-//   color: #ffffff;
-//   font-weight: 600;
-//   cursor: pointer;
-//   letter-spacing: 0.5px;
-//   margin-top: 10px;
-
-//   &:hover {
-//     background: #000;
-//   }
-// `;
-
-// const FooterText = styled.p`
-//   margin-top: 20px;
-//   font-size: 13px;
-//   text-align: center;
-//   color: #6b7280;
-// `;
-
-// const Link = styled.a`
-//   color: #b88a44;
-//   text-decoration: none;
-//   font-weight: 500;
-// `;

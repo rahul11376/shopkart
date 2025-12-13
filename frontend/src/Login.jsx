@@ -1,8 +1,39 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
+import axios from "axios";
 const Login = () => {
   const [view, setView] = useState("login"); 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+
+   const handlesubmit =async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    
+     const payload ={
+    //  email, password
+      email,
+      password
+    }
+    console.log("payload",payload);
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/Login",payload,{
+      headers: {
+      Authorization: `Bearer ${token}`
+     }
+     });
+
+      console.log("login response",res);
+       localStorage.setItem("token", res.data.token);
+      location.href = "/"; // Redirect to home on successful login
+
+    } catch (error) {
+      console.error("error in login", error.response?.data || error.message);
+    }
+
+  };
+
 
 
   return (
@@ -16,12 +47,18 @@ const Login = () => {
         </Brand>
 
         {view === "login" && (
-          <form>
+          <form onSubmit={handlesubmit}>
             <Label>Email Address</Label>
-            <Input type="email" placeholder="you@shopkart.com" />
+            <Input type="email" placeholder="you@shopkart.com" 
+                   value={email}
+                   onChange={e => setEmail(e.target.value)} 
+           />
 
             <Label>Password</Label>
-            <Input type="password" placeholder="••••••••" />
+            <Input type="password" placeholder="••••••••"
+                   value={password}
+                   onChange={e => setPassword(e.target.value)} 
+            />
 
             <Row>
               <label>
@@ -32,7 +69,7 @@ const Login = () => {
               </LinkButton>
             </Row>
 
-            <Button type="submit">Sign In</Button>
+            <Button type="submit" >Sign In</Button>
           </form>
         )}
 
@@ -73,7 +110,7 @@ const Login = () => {
 
         {view === "login" && (
           <FooterText>
-            New to ShopKart? <Link href="#">Create an account</Link>
+            New to ShopKart? <Link href="/Signup">Create an account</Link>
           </FooterText>
         )}
       </Card>
