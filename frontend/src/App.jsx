@@ -8,14 +8,19 @@ import Home from './Home.jsx';
 import Catalog from './Catalog.jsx';
 import Contact from './Contact.jsx';
 import Wishlist from './wishlist.jsx';
+import Login from './Login.jsx';
+import Signup from './Signup.jsx';
 import Cart from './Cart.jsx';
 import ProductView from './components/Productview.jsx';
  import Four from './Route/Four.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Hidebar from './components/Hidebar.jsx';
 import axios from 'axios';
 
 function App() {
-   window.scrollTo(0, 0);
+   useEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
   const [data, setdata] = useState(null );
   const [list, setlist] =useState([]);
   const[view, setview]= useState([]);
@@ -75,7 +80,8 @@ useEffect(()=>{
 
   return (
   <Router>
-         <Navbar data={data} item={item} view={view} />
+    <Hidebar>  <Navbar data={data} item={item} view={view} /></Hidebar>
+       
       <Routes>   
 
         <Route path="/" element={
@@ -157,6 +163,15 @@ useEffect(()=>{
             <Footer />
      </>
      } />
+
+ <Route path="/Login" element={
+      <Login />
+ }/>
+
+ <Route path="/Signup" element={
+      <Signup />
+ }/>
+
    </Routes>
 
  </Router>

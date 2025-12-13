@@ -238,8 +238,6 @@ useEffect(() => {
         <Link  to ={`/catalog`}className="view-all">View All</Link>
       </div>
 
-
-
     </COLLECTIONS>
   );
 };
